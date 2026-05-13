@@ -9,8 +9,9 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 /**
- * Data Access Object (DAO) / Repository.
- * Sole responsibility (SRP): Manage data persistence in MySQL and memory structures.
+ * Data Access Object (DAO) / Repositorio.
+ * Cumple con el Principio de Responsabilidad Única (SRP) de SOLID: 
+ * Su única tarea es gestionar la persistencia de datos (MySQL y RAM).
  */
 public class TurnRepository {
     
@@ -18,6 +19,10 @@ public class TurnRepository {
     private final PriorityQueue<MedicalTurn> turnQueue;
     private final Stack<MedicalTurn> attentionHistory;
 
+    /**
+     * Constructor privado para evitar instanciación externa.
+     * Inicializa las estructuras e hidrata la cola en RAM con los datos de MySQL.
+     */
     private TurnRepository() {
         this.turnQueue = new PriorityQueue<>();
         this.attentionHistory = new Stack<>();
@@ -25,9 +30,10 @@ public class TurnRepository {
     }
 
     /**
-     * Ensures only one instance of the Repository exists in Tomcat memory.
+     * Garantiza que exista una única instancia del Repositorio en la memoria del servidor Tomcat.
+     * Usa la palabra 'synchronized' para evitar colisiones si dos usuarios entran al mismo milisegundo.
      *
-     * @return TurnRepository instance.
+     * @return La instancia única de TurnRepository.
      */
     public static synchronized TurnRepository getInstance() {
         if (instance == null) {
@@ -37,10 +43,10 @@ public class TurnRepository {
     }
 
     /**
-     * Saves a patient and their turn into the database.
+     * Guarda el paciente y su turno en la base de datos y posteriormente en la memoria.
      *
-     * @param turn MedicalTurn object containing patient details.
-     * @return true if successful, false otherwise.
+     * @param turn El objeto MedicalTurn configurado con los datos ingresados.
+     * @return true si la inserción fue exitosa, false en caso contrario.
      */
     public boolean saveTurn(MedicalTurn turn) {
         String sqlPatient = "INSERT INTO patients (document_number, full_name, age) VALUES (?, ?, ?) " +
@@ -50,7 +56,7 @@ public class TurnRepository {
         try (Connection conn = DatabaseConnection.getConnection()) {
             int patientId = -1;
             
-            // Insert or Update Patient
+            // 1. Inserción o actualización del paciente
             try (PreparedStatement pstmt = conn.prepareStatement(sqlPatient, Statement.RETURN_GENERATED_KEYS)) {
                 pstmt.setString(1, turn.getPatient().getDocumentNumber());
                 pstmt.setString(2, turn.getPatient().getFullName());
@@ -62,7 +68,7 @@ public class TurnRepository {
                 }
             }
             
-            // Retrieve ID if patient already existed
+            // Recupera el ID si el paciente ya existía en el sistema
             if (patientId == -1) {
                 try (PreparedStatement idStmt = conn.prepareStatement("SELECT id FROM patients WHERE document_number = ?")) {
                     idStmt.setString(1, turn.getPatient().getDocumentNumber());
@@ -72,7 +78,7 @@ public class TurnRepository {
                 }
             }
 
-            // Insert Turn
+            // 2. Inserción del Turno Médico asociado al Paciente
             try (PreparedStatement tstmt = conn.prepareStatement(sqlTurn, Statement.RETURN_GENERATED_KEYS)) {
                 tstmt.setInt(1, patientId);
                 tstmt.setInt(2, turn.getTriageLevel());
@@ -81,11 +87,11 @@ public class TurnRepository {
                 tstmt.executeUpdate();
                 
                 try (ResultSet rs = tstmt.getGeneratedKeys()) {
-                    if (rs.next()) turn.setId(rs.getInt(1));
+                    if (rs.next()) turn.setId(rs.getInt(1)); // Se actualiza la entidad en memoria con el ID real
                 }
             }
             
-            // Update RAM Structure
+            // 3. Se inserta en la estructura de datos dinámica
             turnQueue.offer(turn);
             return true;
             
@@ -96,9 +102,9 @@ public class TurnRepository {
     }
 
     /**
-     * Updates turn status in DB and memory.
+     * Actualiza el estado del turno en la base de datos a 'ATENDIDO'.
      *
-     * @param turn The turn to mark as attended.
+     * @param turn El turno extraído de la cola para ser actualizado.
      */
     public void updateTurnStatus(MedicalTurn turn) {
         String sql = "UPDATE medical_turns SET status = 'ATTENDED' WHERE id = ?";
@@ -111,6 +117,10 @@ public class TurnRepository {
         }
     }
 
+    /**
+     * Método interno para cargar los turnos pendientes desde MySQL a la RAM 
+     * en caso de que el servidor Tomcat sea reiniciado, previniendo pérdida de la cola.
+     */
     private void loadPendingTurns() {
         String sql = "SELECT t.id, t.triage_level, t.symptoms, t.arrival_time, " +
                      "p.id as p_id, p.document_number, p.full_name, p.age " +

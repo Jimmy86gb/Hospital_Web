@@ -3,8 +3,9 @@ package co.edu.udistrital.model;
 import java.sql.Timestamp;
 
 /**
- * Represents a medical turn assignment.
- * Implements Comparable to dictate priority inside the PriorityQueue.
+ * Representa la asignación de un turno médico.
+ * Implementa la interfaz Comparable para dictar la prioridad interna 
+ * cuando se inserta en la estructura PriorityQueue de Java.
  */
 public class MedicalTurn implements Comparable<MedicalTurn> {
     private int id;
@@ -15,13 +16,13 @@ public class MedicalTurn implements Comparable<MedicalTurn> {
     private String status; 
 
     /**
-     * Constructs a new Medical Turn.
+     * Construye un nuevo Turno Médico.
      *
-     * @param id          Database ID of the turn.
-     * @param patient     The associated Patient object.
-     * @param triageLevel The urgency level (1 Critical - 5 Non-Urgent).
-     * @param symptoms    Description of the patient's ailments.
-     * @param arrivalTime Timestamp of registry.
+     * @param id          ID del turno en la base de datos.
+     * @param patient     El objeto Paciente asociado a este turno.
+     * @param triageLevel Nivel de urgencia (1 Crítico a 5 No Urgente).
+     * @param symptoms    Descripción de las dolencias reportadas.
+     * @param arrivalTime Marca de tiempo exacta del registro.
      */
     public MedicalTurn(int id, Patient patient, int triageLevel, String symptoms, Timestamp arrivalTime) {
         this.id = id;
@@ -29,16 +30,16 @@ public class MedicalTurn implements Comparable<MedicalTurn> {
         this.triageLevel = triageLevel;
         this.symptoms = symptoms;
         this.arrivalTime = arrivalTime;
-        this.status = "WAITING";
+        this.status = "WAITING"; // Estado por defecto
     }
 
     /**
-     * Core logic for the PriorityQueue.
-     * Lower triage level number means higher priority.
-     * If levels are identical, the earlier arrival time takes precedence.
+     * Lógica central de priorización para la Cola de Prioridad.
+     * Un nivel de triage numéricamente menor indica mayor gravedad médica.
+     * En caso de empate en el nivel, el turno con fecha/hora de llegada más antigua gana.
      *
-     * @param other The other turn to compare against.
-     * @return negative integer, zero, or positive integer based on priority.
+     * @param other El otro turno contra el que se compara.
+     * @return un entero negativo, cero, o positivo según la prioridad calculada.
      */
     @Override
     public int compareTo(MedicalTurn other) {

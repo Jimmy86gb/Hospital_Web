@@ -1,8 +1,8 @@
 package co.edu.udistrital.model;
 
 /**
- * Represents a medical patient in the system.
- * This acts as a pure Data Transfer Object (DTO).
+ * Representa a un paciente dentro del sistema hospitalario.
+ * Actúa como un Data Transfer Object (DTO) puro para almacenar información demográfica.
  */
 public class Patient {
     private int id;
@@ -11,12 +11,12 @@ public class Patient {
     private int age;
 
     /**
-     * Constructs a new Patient instance.
+     * Construye una nueva instancia de Paciente.
      *
-     * @param id             The database identifier.
-     * @param documentNumber The official identification number.
-     * @param fullName       The patient's complete name.
-     * @param age            The patient's age.
+     * @param id             El identificador asignado por la base de datos.
+     * @param documentNumber El número de identificación oficial (Cédula/Tarjeta).
+     * @param fullName       El nombre completo del paciente.
+     * @param age            La edad cronológica del paciente.
      */
     public Patient(int id, String documentNumber, String fullName, int age) {
         this.id = id;

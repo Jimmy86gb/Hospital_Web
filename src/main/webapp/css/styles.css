@@ -1,94 +1,88 @@
-/* Global Reset and Font */
+/* Reset global y fuente tipográfica */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Modern Gradient Background */
+/* Fondo dinámico y centrado */
 body {
-    background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
+    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
     min-height: 100vh;
-    color: #333;
+    color: #2c3e50;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
 }
 
-/* Glassmorphism Panel Container */
+/* Contenedor principal estilo Glassmorphism (Vidrio esmerilado) */
 .glass-panel {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     padding: 40px;
     width: 100%;
-    max-width: 900px;
-    animation: fadeIn 0.8s ease-out forwards;
+    max-width: 1000px;
+    animation: slideUpFade 0.6s ease-out forwards;
 }
 
-/* Fade In Animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
+/* Animación de entrada */
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Typography */
-h1, h2, h3 { color: #2c3e50; margin-bottom: 20px; text-align: center; }
+/* Títulos y separadores */
+h1, h2, h3 { color: #1a252f; text-align: center; margin-bottom: 25px; }
 hr { border: 0; height: 1px; background: rgba(0,0,0,0.1); margin: 30px 0; }
 
-/* Buttons */
+/* Botones modernos */
 .btn {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin-top: 15px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    background-color: #3498db;
-    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+    display: block; width: 100%; padding: 14px; margin-top: 15px;
+    border: none; border-radius: 10px; font-size: 16px; font-weight: bold;
+    color: white; cursor: pointer; text-align: center; text-decoration: none;
+    transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
+.btn-primary { background: linear-gradient(135deg, #3498db, #2980b9); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(52,152,219,0.4); }
 
-.btn:hover { background-color: #2980b9; transform: translateY(-2px); }
-.btn-danger { background-color: #e74c3c; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3); }
-.btn-danger:hover { background-color: #c0392b; }
-.btn-success { background-color: #2ecc71; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3); }
-.btn-success:hover { background-color: #27ae60; }
+.btn-danger { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+.btn-danger:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(231,76,60,0.4); }
 
-/* Forms */
-.form-group { margin-bottom: 15px; }
-label { display: block; font-weight: 600; margin-bottom: 5px; color: #34495e; }
+.btn-success { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+.btn-success:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(46,204,113,0.4); }
+
+.btn-secondary { background: #7f8c8d; }
+.btn-secondary:hover { background: #95a5a6; transform: translateY(-2px); }
+
+/* Formularios */
+.form-group { margin-bottom: 18px; }
+label { display: block; font-weight: 600; margin-bottom: 8px; color: #34495e; font-size: 14px; }
 input, select, textarea {
-    width: 100%; padding: 10px; border: 1px solid #bdc3c7; border-radius: 6px;
-    background: rgba(255, 255, 255, 0.9); transition: border 0.3s;
+    width: 100%; padding: 12px; border: 1px solid #dcdde1; border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9); transition: all 0.3s ease; font-size: 15px;
 }
-input:focus, select:focus, textarea:focus { border-color: #3498db; outline: none; }
+input:focus, select:focus, textarea:focus { border-color: #3498db; outline: none; box-shadow: 0 0 8px rgba(52,152,219,0.3); }
 
-/* Tables */
-.table-container { overflow-x: auto; margin-top: 20px; border-radius: 8px; }
-table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
-th, td { padding: 15px; text-align: left; border-bottom: 1px solid #ecf0f1; }
-th { background-color: #34495e; color: white; }
-tr:hover { background-color: #f8f9fa; }
+/* Tablas con diseño limpio */
+.table-container { overflow-x: auto; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.8); }
+th, td { padding: 16px; text-align: left; border-bottom: 1px solid rgba(0,0,0,0.05); }
+th { background-color: rgba(44, 62, 80, 0.9); color: white; font-weight: 600; }
+tr:hover { background-color: rgba(255,255,255,1); }
 
-/* Triage Colors */
-.triage-1 { border-left: 5px solid #e74c3c; background-color: rgba(231, 76, 60, 0.05); }
-.triage-2 { border-left: 5px solid #e67e22; background-color: rgba(230, 126, 34, 0.05); }
-.triage-3 { border-left: 5px solid #f1c40f; background-color: rgba(241, 196, 15, 0.05); }
-.triage-4 { border-left: 5px solid #3498db; background-color: rgba(52, 152, 219, 0.05); }
-.triage-5 { border-left: 5px solid #2ecc71; background-color: rgba(46, 204, 113, 0.05); }
+/* Indicadores de colores para Triage */
+.triage-1 { border-left: 6px solid #e74c3c; background-color: rgba(231, 76, 60, 0.08); }
+.triage-2 { border-left: 6px solid #e67e22; background-color: rgba(230, 126, 34, 0.08); }
+.triage-3 { border-left: 6px solid #f1c40f; background-color: rgba(241, 196, 15, 0.08); }
+.triage-4 { border-left: 6px solid #3498db; background-color: rgba(52, 152, 219, 0.08); }
+.triage-5 { border-left: 6px solid #2ecc71; background-color: rgba(46, 204, 113, 0.08); }
 
-/* Layout grids */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-@media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+/* Sistema de grilla (Grid) */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+@media (max-width: 850px) { .grid-2 { grid-template-columns: 1fr; } }

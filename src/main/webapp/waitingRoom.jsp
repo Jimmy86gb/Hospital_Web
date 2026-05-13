@@ -1,72 +1,72 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Waiting Room & Reception</title>
+    <title>Recepción y Sala de Espera</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
-<body style="align-items: flex-start;">
+<body style="align-items: flex-start; padding-top: 40px;">
 
     <div class="glass-panel grid-2">
         <div>
-            <h2>📝 Register Patient</h2>
+            <h2>📝 Registrar Paciente</h2>
             <form action="TriageController" method="POST">
                 <input type="hidden" name="action" value="register">
                 
                 <div class="form-group">
-                    <label>Document Number:</label>
-                    <input type="text" name="document" required>
+                    <label>Número de Documento:</label>
+                    <input type="text" name="document" placeholder="Ej. 1002345678" required>
                 </div>
                 <div class="form-group">
-                    <label>Full Name:</label>
-                    <input type="text" name="name" required>
+                    <label>Nombre Completo:</label>
+                    <input type="text" name="name" placeholder="Nombres y Apellidos" required>
                 </div>
                 <div class="form-group">
-                    <label>Age:</label>
+                    <label>Edad:</label>
                     <input type="number" name="age" required min="0">
                 </div>
                 <div class="form-group">
-                    <label>Triage Level:</label>
+                    <label>Nivel de Triage (Clasificación):</label>
                     <select name="triageLevel" required>
-                        <option value="1">1 - Resuscitation (Immediate)</option>
-                        <option value="2">2 - Emergent (15 mins)</option>
-                        <option value="3">3 - Urgent (30 mins)</option>
-                        <option value="4">4 - Less Urgent (1 hour)</option>
-                        <option value="5">5 - Non Urgent (120 mins)</option>
+                        <option value="1">Nivel 1 - Reanimación (Inmediata)</option>
+                        <option value="2">Nivel 2 - Emergencia (15 min)</option>
+                        <option value="3">Nivel 3 - Urgencia (30 min)</option>
+                        <option value="4">Nivel 4 - Prioridad Menor (60 min)</option>
+                        <option value="5">Nivel 5 - No Urgente (120 min)</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Symptoms:</label>
+                    <label>Síntomas / Motivo de consulta:</label>
                     <textarea name="symptoms" rows="3" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-success">Register to Queue</button>
+                <button type="submit" class="btn btn-success">Registrar en la Cola</button>
             </form>
         </div>
 
         <div>
-            <h2>⏱️ Live Waiting Room</h2>
+            <h2>⏱️ Sala de Espera en Vivo</h2>
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th>Level</th>
-                            <th>Patient Name</th>
-                            <th>Status</th>
+                            <th>Gravedad</th>
+                            <th>Paciente</th>
+                            <th>Estado</th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:choose>
                             <c:when test="${empty queue}">
-                                <tr><td colspan="3" style="text-align: center;">No patients in queue.</td></tr>
+                                <tr><td colspan="3" style="text-align: center; color: #7f8c8d;">No hay pacientes en espera.</td></tr>
                             </c:when>
                             <c:otherwise>
                                 <c:forEach var="turn" items="${queue}">
                                     <tr class="triage-${turn.triageLevel}">
-                                        <td><strong>Level ${turn.triageLevel}</strong></td>
+                                        <td><strong>Nivel ${turn.triageLevel}</strong></td>
                                         <td>${turn.patient.fullName}</td>
-                                        <td>Waiting</td>
+                                        <td style="color: #e67e22; font-weight: bold;">En Espera</td>
                                     </tr>
                                 </c:forEach>
                             </c:otherwise>
@@ -74,7 +74,7 @@
                     </tbody>
                 </table>
             </div>
-            <a href="index.jsp" class="btn" style="margin-top: 30px; background-color: #7f8c8d;">← Back to Menu</a>
+            <a href="index.jsp" class="btn btn-secondary" style="margin-top: 30px;">← Volver al Menú Principal</a>
         </div>
     </div>
 

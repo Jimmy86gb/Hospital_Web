@@ -11,17 +11,20 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Front Controller Servlet.
- * Receives HTTP requests, delegates business logic to TriageService, and redirects views.
+ * Servlet Front Controller (Controlador Frontal).
+ * Se encarga exclusivamente de recibir peticiones HTTP, delegar el trabajo lógico 
+ * a la capa de Servicio, y redirigir al usuario a la vista JSP correspondiente.
  */
 @WebServlet(name = "TriageController", urlPatterns = {"/TriageController"})
 public class TriageController extends HttpServlet {
 
     private TriageService service;
 
+    /**
+     * Ciclo de vida del Servlet: Inicializa la capa de servicio cuando el servidor arranca.
+     */
     @Override
     public void init() throws ServletException {
-        // Instantiate the service layer once the servlet starts
         this.service = new TriageService();
     }
 
@@ -38,10 +41,14 @@ public class TriageController extends HttpServlet {
     }
 
     /**
-     * Centralized routing method using the 'action' parameter pattern.
+     * Enrutador central. Usa el patrón de parámetro 'action' para evitar crear 
+     * múltiples archivos Servlet.
      */
     private void routeRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        // Define la codificación para leer caracteres especiales en español
+        request.setCharacterEncoding("UTF-8"); 
         
         String action = request.getParameter("action");
         if (action == null) action = "waitingRoom";
@@ -73,6 +80,8 @@ public class TriageController extends HttpServlet {
         String symptoms = request.getParameter("symptoms");
 
         service.processNewRegistration(doc, name, age, level, symptoms);
+        
+        // Redirección POST-Get para evitar duplicación de datos al recargar la página
         response.sendRedirect("TriageController?action=waitingRoom");
     }
 
