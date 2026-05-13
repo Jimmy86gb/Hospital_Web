@@ -1,25 +1,18 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital Triage System</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f7f6; text-align: center; padding-top: 50px; }
-        .menu-container { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; }
-        .btn { display: block; margin: 15px auto; padding: 15px 30px; background-color: #0056b3; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; width: 200px; }
-        .btn:hover { background-color: #004494; }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div class="menu-container">
+    <div class="glass-panel" style="max-width: 500px;">
         <h1>🏥 Triage System</h1>
-        <p>Select a module to access:</p>
-        
+        <p style="text-align: center; margin-bottom: 30px;">Select a module to access the system.</p>
         <a href="TriageController?action=waitingRoom" class="btn">Reception & Waiting Room</a>
-        
-        <a href="doctorPanel.jsp" class="btn">Doctor Panel</a>
+        <a href="doctorPanel.jsp" class="btn btn-danger">Doctor's Panel</a>
     </div>
 </body>
 </html>
