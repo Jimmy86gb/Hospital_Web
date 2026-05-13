@@ -5,21 +5,26 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Utility class to manage Database connections using MySQL Connector.
+ * Utility class to manage MySQL Database connections.
+ * Follows the Singleton pattern concept for connection creation.
  */
 public class DatabaseConnection {
     
-    // Cambiamos mariadb por mysql y añadimos parámetros de zona horaria por estabilidad
     private static final String URL = "jdbc:mysql://localhost:3306/hospital_triage_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
     private static final String USER = "root"; 
-    private static final String PASSWORD = "Ing86gb.."; 
+    private static final String PASSWORD = ""; 
 
+    /**
+     * Establishes and returns a new connection to the MySQL database.
+     *
+     * @return Connection object to execute SQL queries.
+     * @throws SQLException if a database access error occurs.
+     */
     public static Connection getConnection() throws SQLException {
         try {
-            // Se actualiza el motor al de MySQL
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            throw new SQLException("MySQL Driver not found in classpath.", e);
+            throw new SQLException("MySQL Driver not found.", e);
         }
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
